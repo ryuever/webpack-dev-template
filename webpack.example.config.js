@@ -1,6 +1,6 @@
-var path = require('path')
-var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var path = require('path');
+var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
@@ -33,9 +33,10 @@ module.exports = {
   node: { Buffer: false },
   plugins: [
     new webpack.optimize.DedupePlugin(),
+    // new ExtractTextPlugin('[name].css'),
     new ExtractTextPlugin('style.css', { allChunks: true }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     })
   ]
-}
+};

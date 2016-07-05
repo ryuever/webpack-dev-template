@@ -1,8 +1,9 @@
-var webpack = require('webpack')
+var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
-    Sample: './src/Sample',
+    Sample: './src/Sample'
   },
   output: {
     libraryTarget: 'umd',
@@ -16,11 +17,18 @@ module.exports = {
         test: /\.js?$/,
         loader: 'babel',
         exclude: /node_modules/
-      }
+      },
+      { test: /\.scss/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!sass-loader') },
+      { test: /\.css/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader') },
+      { test: /\.less/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader') }
+      // {
+      //   test: /\.less/,
+      //   loader: 'style-loader!css-loader!less-loader',
+      // }
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx', '.less']
   },
   externals: [
     {
@@ -59,8 +67,10 @@ module.exports = {
   node: { Buffer: false },
   plugins: [
     new webpack.optimize.DedupePlugin(),
+    // new ExtractTextPlugin('[name].css'),
+    // new ExtractTextPlugin('style.css', { allChunks: true }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     })
   ]
-}
+};
